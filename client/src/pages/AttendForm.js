@@ -26,7 +26,7 @@ const AttendForm = () => {
   const fetchEvent = async () => {
     try {
       setLoading(true);
-      const response = await apiClient.get(`/api/events/slug/${eventSlug}`);
+      const response = await apiClient.get(`/events/slug/${eventSlug}`);
       setEvent(response.data.event);
     } catch (err) {
       setError('Event not found');
@@ -40,23 +40,29 @@ const AttendForm = () => {
     try {
       setSubmitting(true);
 
+      // Submit attendance data to API
       const attendanceData = {
-        eventSlug,
-        ...data,
-        representativeCount: parseInt(data.representativeCount) || 1
+        eventSlug: event.slug,
+        guestName: data.guestName,
+        institution: data.institution,
+        position: data.position || null,
+        phone: data.phone || null,
+        email: data.email || null,
+        representativeCount: parseInt(data.representativeCount),
+        category: data.category || 'guest'
       };
 
-      await apiClient.post('/api/attendance', attendanceData);
-
+      const response = await apiClient.post('/attendance', attendanceData);
       toast.success('Attendance recorded successfully!');
       reset();
 
       // Show success message
       setTimeout(() => {
         navigate(`/attend/${eventSlug}/success`);
-      }, 2000);
+      }, 1500);
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to record attendance';
+      console.error('Error submitting attendance:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to submit form';
       toast.error(errorMessage);
     } finally {
       setSubmitting(false);

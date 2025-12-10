@@ -10,8 +10,6 @@ const pool = mysql.createPool({
   database: config.database.database,
   waitForConnections: true,
   connectionLimit: config.database.connectionLimit,
-  acquireTimeout: config.database.acquireTimeout,
-  timeout: config.database.timeout,
   // Enable multiple statements (for setup)
   multipleStatements: true
 });

@@ -60,13 +60,20 @@ const createTables = async () => {
     // Insert default admin user (password: admin123)
     const insertDefaultAdmin = `
       INSERT IGNORE INTO users (name, email, password_hash, role) VALUES
-      ('Admin User', 'admin@simak.com', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewqNNPNqIC5gDj5e', 'admin');
+      ('Admin Universitas Dumai', 'admin@universitasdumai.ac.id', '$2a$12$oq8.IwcjirPesnLg/UVRleyHo5G3viG0V6v2SryuS.EcKV6jukRV2', 'admin');
     `;
 
-    // Create sample event if none exists
-    const insertSampleEvent = `
+    // Create sample events if none exists
+    const insertSampleEvents = `
       INSERT IGNORE INTO events (name, slug, description, date, location) VALUES
-      ('Open Campus Day 2024', 'open-campus-day-2024', 'Annual open campus event for prospective students', '2024-12-15T09:00:00Z', 'Main Auditorium');
+      ('Open Campus Day 2024', 'open-campus-day-2024', 'Acara tahunan open campus untuk calon mahasiswa baru. Kunjungi kampus kami dan temukan program studi yang sesuai dengan minat Anda.', '2024-12-15T09:00:00Z', 'Auditorium Utama Universitas Dumai'),
+      ('Seminar Nasional Teknologi', 'seminar-nasional-teknologi-2024', 'Seminar nasional dengan tema "Transformasi Digital di Era Industri 4.0" yang akan menghadirkan pembicara dari berbagai perusahaan teknologi terkemuka.', '2024-12-20T13:00:00Z', 'Gedung Rektorat Lantai 3'),
+      ('Workshop Kewirausahaan Mahasiswa', 'workshop-kewirausahaan-mahasiswa-2024', 'Workshop intensif untuk mahasiswa yang ingin memulai bisnis startup. Materi meliputi business model canvas, pitching, dan funding.', '2025-01-10T08:30:00Z', 'Laboratorium Komputer Lantai 2'),
+      ('Job Fair Universitas Dumai 2024', 'job-fair-universitas-dumai-2024', 'Pameran lowongan kerja tahunan dengan lebih dari 50 perusahaan ternama yang akan merekrut karyawan dari berbagai jurusan.', '2025-01-15T09:00:00Z', 'Lapangan Olahraga Universitas Dumai'),
+      ('Lokakarya Penelitian Ilmiah', 'lokakarya-penelitian-ilmiah-2024', 'Lokakarya metodologi penelitian ilmiah untuk mahasiswa S1 dan S2 dengan fokus pada publikasi jurnal internasional.', '2025-01-22T10:00:00Z', 'Perpustakaan Pusat Ruang Seminar'),
+      ('Festival Seni dan Budaya', 'festival-seni-budaya-2024', 'Pameran seni dan pertunjukan budaya dari mahasiswa berbagai program studi yang menampilkan kekayaan seni nusantara.', '2025-02-05T16:00:00Z', 'Halaman Kampus Utama'),
+      ('Seminar Kesehatan Mental', 'seminar-kesehatan-mental-2024', 'Seminar penting tentang kesehatan mental bagi mahasiswa dengan narasumber dari psikolog profesional dan konselor kampus.', '2025-02-10T13:30:00Z', 'Auditorium Kedokteran Lantai 1'),
+      ('Competitive Programming Bootcamp', 'competitive-programming-bootcamp-2024', 'Bootcamp intensif programming kompetitif untuk persiapan mengikuti kompetisi programming tingkat nasional dan internasional.', '2025-02-18T09:00:00Z', 'Lab. Sistem Informasi Lantai 3');
     `;
 
     // Execute all table creations
@@ -80,10 +87,10 @@ const createTables = async () => {
     console.log('✅ Users table created');
 
     await db.query(insertDefaultAdmin);
-    console.log('✅ Default admin user created (email: admin@simak.com, password: admin123)');
+    console.log('✅ Default admin user created (email: admin@universitasdumai.ac.id, password: admin123)');
 
-    await db.query(insertSampleEvent);
-    console.log('✅ Sample event created');
+    await db.query(insertSampleEvents);
+    console.log('✅ Sample events created');
 
     console.log('🎉 Database setup completed successfully!');
 

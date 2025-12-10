@@ -33,9 +33,9 @@ class Event {
     const sql = `
       SELECT * FROM events
       ORDER BY date DESC
-      LIMIT ? OFFSET ?
+      LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}
     `;
-    return await db.query(sql, [limit, offset]);
+    return await db.query(sql);
   }
 
   // Count total events
@@ -90,9 +90,9 @@ class Event {
       SELECT * FROM events
       WHERE date >= NOW()
       ORDER BY date ASC
-      LIMIT ?
+      LIMIT ${parseInt(limit)}
     `;
-    return await db.query(sql, [limit]);
+    return await db.query(sql);
   }
 
   // Get past events
@@ -101,9 +101,9 @@ class Event {
       SELECT * FROM events
       WHERE date < NOW()
       ORDER BY date DESC
-      LIMIT ?
+      LIMIT ${parseInt(limit)}
     `;
-    return await db.query(sql, [limit]);
+    return await db.query(sql);
   }
 }
 

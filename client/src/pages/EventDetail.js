@@ -17,28 +17,38 @@ const EventDetail = () => {
   const fetchEventDetails = async () => {
     try {
       setLoading(true);
-      const [eventResponse, attendanceResponse] = await Promise.all([
-        apiClient.get(`/api/events/${id}`),
-        apiClient.get(`/api/attendance/event/${id}`)
-      ]);
-
+      const eventResponse = await apiClient.get(`/events/${id}`);
       setEvent(eventResponse.data.event);
-      setAttendance(attendanceResponse.data.attendance);
 
-      // Calculate stats
-      const totalAttendees = attendanceResponse.data.attendance.length;
-      const totalInstitutions = new Set(
-        attendanceResponse.data.attendance.map(a => a.institution)
-      ).size;
-      const totalRepresented = attendanceResponse.data.attendance.reduce(
-        (sum, a) => sum + a.representative_count, 0
-      );
+      // Try to get attendance data, but don't fail the whole component if it fails
+      try {
+        const attendanceResponse = await apiClient.get(`/attendance/event/${id}`);
+        setAttendance(attendanceResponse.data.attendance || []);
 
-      setStats({
-        totalAttendees,
-        totalInstitutions,
-        totalRepresented
-      });
+        // Calculate stats
+        const attendanceData = attendanceResponse.data.attendance || [];
+        const totalAttendees = attendanceData.length;
+        const totalInstitutions = new Set(
+          attendanceData.map(a => a.institution)
+        ).size;
+        const totalRepresented = attendanceData.reduce(
+          (sum, a) => sum + (a.representative_count || 1), 0
+        );
+
+        setStats({
+          totalAttendees,
+          totalInstitutions,
+          totalRepresented
+        });
+      } catch (attendanceError) {
+        console.warn('Could not fetch attendance data:', attendanceError);
+        setAttendance([]);
+        setStats({
+          totalAttendees: 0,
+          totalInstitutions: 0,
+          totalRepresented: 0
+        });
+      }
     } catch (err) {
       setError('Failed to fetch event details');
       console.error('Error fetching event details:', err);
@@ -49,7 +59,7 @@ const EventDetail = () => {
 
   const handleExport = async () => {
     try {
-      const response = await apiClient.get(`/api/attendance/event/${id}/export`, {
+      const response = await apiClient.get(`/attendance/event/${id}/export`, {
         responseType: 'blob'
       });
 

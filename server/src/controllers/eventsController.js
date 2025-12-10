@@ -2,7 +2,7 @@ const Event = require('../models/Event');
 
 class EventsController {
   // GET /api/events - Get all events
-  static async getAllEvents(req, res) {
+  static async getAllEvents(req, res, next) {
     try {
       const page = parseInt(req.query.page) || 1;
       const pageSize = parseInt(req.query.pageSize) || 10;

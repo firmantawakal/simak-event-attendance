@@ -1,4 +1,4 @@
-const db = require('../db');
+const { pool, query } = require('../db');
 
 class Attendance {
   // Create new attendance record
@@ -7,11 +7,11 @@ class Attendance {
       event_id,
       guest_name,
       institution,
-      position,
-      phone,
-      email,
-      representative_count,
-      category
+      position = null,
+      phone = null,
+      email = null,
+      representative_count = 1,
+      category = 'guest'
     } = attendanceData;
 
     const sql = `
@@ -22,12 +22,12 @@ class Attendance {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    const [result] = await db.query(sql, [
+    const result = await pool.execute(sql, [
       event_id, guest_name, institution, position, phone, email,
       representative_count, category
     ]);
 
-    return this.findById(result.insertId);
+    return this.findById(result[0].insertId);
   }
 
   // Find attendance by ID
@@ -38,7 +38,7 @@ class Attendance {
       JOIN events e ON a.event_id = e.id
       WHERE a.id = ?
     `;
-    const attendance = await db.query(sql, [id]);
+    const attendance = await query(sql, [id]);
     return attendance[0] || null;
   }
 
@@ -78,7 +78,19 @@ class Attendance {
       LIMIT ? OFFSET ?
     `;
 
-    const attendance = await db.query(sql, [...params, pageSize, offset]);
+    // Simplified query without pagination for now
+    const simpleSql = `
+      SELECT
+        a.*,
+        e.name as event_name,
+        e.slug as event_slug
+      FROM attendance a
+      JOIN events e ON a.event_id = e.id
+      WHERE a.event_id = ?
+      ORDER BY a.arrival_time DESC
+      LIMIT 50
+    `;
+    const attendance = await query(simpleSql, [eventId]);
 
     // Get total count for pagination
     const countSql = `
@@ -87,8 +99,8 @@ class Attendance {
       ${whereClause}
     `;
 
-    const [countResult] = await db.query(countSql, params);
-    const total = countResult.total;
+    const countResult = await query(countSql, [eventId]);
+    const total = countResult[0].total;
 
     return {
       attendance,
@@ -115,7 +127,7 @@ class Attendance {
       WHERE event_id = ?
     `;
 
-    const [stats] = await db.query(sql, [eventId]);
+    const stats = await query(sql, [eventId]);
     return stats;
   }
 
@@ -133,7 +145,7 @@ class Attendance {
       ORDER BY institution
     `;
 
-    return await db.query(sql, [eventId]);
+    return await query(sql, [eventId]);
   }
 
   // Get attendance by category for an event
@@ -149,7 +161,7 @@ class Attendance {
       ORDER BY attendee_count DESC
     `;
 
-    return await db.query(sql, [eventId]);
+    return await query(sql, [eventId]);
   }
 
   // Check if guest already registered for event
@@ -160,14 +172,14 @@ class Attendance {
       WHERE event_id = ? AND guest_name = ? AND institution = ?
     `;
 
-    const [result] = await db.query(sql, [eventId, guestName, institution]);
-    return result.count > 0;
+    const result = await query(sql, [eventId, guestName, institution]);
+    return result[0].count > 0;
   }
 
   // Delete attendance record
   static async delete(id) {
     const sql = 'DELETE FROM attendance WHERE id = ?';
-    const [result] = await db.query(sql, [id]);
+    const [result] = await pool.execute(sql, [id]);
     return result.affectedRows > 0;
   }
 
@@ -208,7 +220,8 @@ class Attendance {
       ORDER BY a.arrival_time ASC
     `;
 
-    return await db.query(sql, params);
+    const [result] = await pool.execute(sql, params);
+    return result;
   }
 }
 
