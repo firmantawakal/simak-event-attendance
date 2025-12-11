@@ -47,7 +47,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
-app.use('/api/attendance', attendanceLimiter, attendanceRoutes);
+app.use('/api/attendance', attendanceRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

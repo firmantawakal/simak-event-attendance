@@ -1,0 +1,13 @@
+{
+  "short_name": "Buku Tamu Digital",
+  "name": "Buku Tamu Digital - Universitas Dumai",
+  "description": "Sistem manajemen acara dan kehadiran kampus",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1e40af",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "id-ID",
+  "dir": "ltr"
+}
