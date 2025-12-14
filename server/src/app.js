@@ -9,6 +9,7 @@ const morgan = require('morgan');
 const eventRoutes = require('./routes/events');
 const attendanceRoutes = require('./routes/attendance');
 const authRoutes = require('./routes/auth');
+const institutionsRoutes = require('./routes/institutions');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -17,19 +18,23 @@ const PORT = process.env.PORT || 5000;
 // Security middleware
 app.use(helmet());
 
-// Rate limiting
+// Rate limiting (less restrictive for development)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.'
+  max: 1000, // limit each IP to 1000 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 app.use('/api/', limiter);
 
 // Stricter rate limiting for attendance endpoint
 const attendanceLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // limit each IP to 10 attendance submissions per windowMs
-  message: 'Too many attendance submissions, please try again later.'
+  max: 100, // limit each IP to 100 attendance submissions per windowMs
+  message: 'Too many attendance submissions, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
 // CORS configuration
@@ -48,6 +53,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/institutions', institutionsRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

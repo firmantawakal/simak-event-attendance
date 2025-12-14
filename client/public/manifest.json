@@ -1,7 +1,7 @@
 {
-  "short_name": "Buku Tamu Digital",
-  "name": "Buku Tamu Digital - Universitas Dumai",
-  "description": "Sistem manajemen acara dan kehadiran kampus",
+  "short_name": "SIMAK Event",
+  "name": "SIMAK Event - Sistem Informasi Manajemen Acara Kampus",
+  "description": "Platform resmi Universitas Dumai untuk manajemen acara dan sistem kehadiran digital yang modern dan terintegrasi",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#1e40af",

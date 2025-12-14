@@ -61,13 +61,13 @@ const Home = () => {
       <div className="hero-section">
         <div className="hero-content">
           <div className="hero-text">
-            <h1>Buku Tamu Digital</h1>
+            <h1>SIMAK Event</h1>
             <p className="hero-subtitle">
-              Universitas Dumai - Sistem manajemen acara dan kehadiran kampus
+              Sistem Informasi Manajemen Acara Kampus - Universitas Dumai
             </p>
             <div className="hero-buttons">
               <Link to="/login" className="btn btn-primary">
-                Login Admin
+                Akses Sistem Admin
               </Link>
             </div>
           </div>
@@ -89,7 +89,7 @@ const Home = () => {
 
       <div className="stats-section">
         <div className="container">
-          <h2 className="section-title">Statistik Platform</h2>
+          <h2 className="section-title">Statistik Sistem Kampus</h2>
           <div className="stats-grid">
             <div className="stat-card">
               <div className="stat-number">
@@ -99,7 +99,7 @@ const Home = () => {
                   stats.totalEvents
                 )}
               </div>
-              <div className="stat-label">Total Acara</div>
+              <div className="stat-label">Acara Resmi Kampus</div>
             </div>
             <div className="stat-card">
               <div className="stat-number">
@@ -109,7 +109,7 @@ const Home = () => {
                   stats.totalAttendees
                 )}
               </div>
-              <div className="stat-label">Total Tamu</div>
+              <div className="stat-label">Total Peserta</div>
             </div>
             <div className="stat-card">
               <div className="stat-number">
@@ -119,7 +119,7 @@ const Home = () => {
                   stats.totalInstitutions
                 )}
               </div>
-              <div className="stat-label">Institusi</div>
+              <div className="stat-label">Institusi Mitra</div>
             </div>
           </div>
         </div>
@@ -127,37 +127,37 @@ const Home = () => {
 
       <div className="features-section">
         <div className="container">
-          <h2 className="section-title">Mengapa Memilih Sistem Kami?</h2>
+          <h2 className="section-title">Fitur Unggulan SIMAK Event</h2>
           <div className="features-grid">
             <div className="feature-card">
               <Smartphone className="feature-icon" />
-              <h3>Mobile Friendly</h3>
-              <p>Tamu dapat dengan mudah check-in menggunakan perangkat mobile dengan desain responsif yang dioptimalkan untuk semua ukuran layar.</p>
+              <h3>Akses Seluler Terintegrasi</h3>
+              <p>Peserta dapat melakukan pendaftaran kehadiran melalui perangkat mobile dengan antarmuka responsif yang dioptimalkan untuk ekosistem digital kampus.</p>
             </div>
             <div className="feature-card">
               <BarChart3 className="feature-icon" />
-              <h3>Analitik Real-time</h3>
-              <p>Lihat data kehadiran dan statistik secara real-time dengan dashboard interaktif dan update instan.</p>
+              <h3>Dashboard Monitoring Real-time</h3>
+              <p>Pantau statistik kehadiran dan data acara secara real-time melalui dashboard administratif yang terintegrasi dengan sistem informasi kampus.</p>
             </div>
             <div className="feature-card">
               <Download className="feature-icon" />
-              <h3>Ekspor Data</h3>
-              <p>Ekspor laporan kehadiran ke format CSV dan Excel untuk analisis lebih lanjut dan penyimpanan rekaman.</p>
+              <h3>Generasi Laporan Resmi</h3>
+              <p>Buat laporan kehadiran dalam format standar universitas untuk dokumentasi resmi dan keperluan administrasi kampus.</p>
             </div>
             <div className="feature-card">
               <Shield className="feature-icon" />
-              <h3>Aman & Terpercaya</h3>
-              <p>Dilindungi dengan validasi input, rate limiting, dan autentikasi aman untuk menjaga keamanan data Anda.</p>
+              <h3>Keamanan Data Terstandar</h3>
+              <p>Sistem dilindungi dengan protokol keamanan standar universitas, enkripsi data, dan autentikasi berlapis untuk menjaga privasi peserta.</p>
             </div>
             <div className="feature-card">
               <Zap className="feature-icon" />
-              <h3>Check-in Cepat</h3>
-              <p>Proses check-in yang cepat dan efisien mengurangi antrian dan meningkatkan pengalaman tamu di acara Anda.</p>
+              <h3>Proses Registrasi Efisien</h3>
+              <p>Sistem pendaftaran kehadiran yang optimal meminimalkan waktu tunggu dan meningkatkan efisiensi administrasi acara kampus.</p>
             </div>
             <div className="feature-card">
               <Building className="feature-icon" />
-              <h3>Tracking Institusi</h3>
-              <p>Lacak peserta berdasarkan institusi untuk wawasan lebih baik dan peluang networking di acara kampus.</p>
+              <h3>Manajemen Data Institusi</h3>
+              <p>Pencatatan dan analisis data peserta berdasarkan institusi untuk mendukung kerjasama akademik dan networking antar lembaga.</p>
             </div>
           </div>
         </div>
@@ -166,11 +166,11 @@ const Home = () => {
       <div className="cta-section">
         <div className="container">
           <div className="cta-content">
-            <h2>Siap untuk Transformasi Manajemen Acara Anda?</h2>
-            <p>Bergabunglah dengan ribuan penyelenggara acara yang telah mendigitalkan sistem tracking kehadiran mereka.</p>
+            <h2>Sistem Manajemen Acara Resmi Universitas Dumai</h2>
+            <p>Platform digital terintegrasi untuk mendukung administrasi dan dokumentasi kehadiran pada setiap kegiatan akademik dan kemahasiswaan.</p>
             <div className="cta-buttons">
               <Link to="/login" className="btn btn-primary btn-large">
-                Mulai Sekarang
+                Akses Sistem Administrasi
               </Link>
             </div>
           </div>

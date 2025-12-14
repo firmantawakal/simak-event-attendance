@@ -10,17 +10,17 @@ const AttendSuccess = () => {
     <div className="attend-success">
       <div className="card text-center">
         <CheckCircle className="success-icon" />
-        <h1>Attendance Recorded Successfully!</h1>
+        <h1>Kehadiran berhasil disimpan!</h1>
         <p className="text-muted">
-          Thank you for registering for this event.
+          Terimakasih telah melakukan registrasi pada acara ini.
         </p>
 
         <div className="success-actions">
           <Link to={`/attend/${eventSlug}`} className="btn btn-outline">
-            Register Another Person
+            Registrasi Ulang
           </Link>
           <Link to="/" className="btn btn-primary">
-            Back to Home
+            Kembali ke Beranda
           </Link>
         </div>
       </div>

@@ -696,3 +696,148 @@
     transform: rotate(360deg);
   }
 }
+
+/* Institution Dropdown Styles */
+.custom-institution-input {
+  animation: slideDown 0.3s ease-out;
+}
+
+.non-student-info {
+  margin: var(--space-4) 0;
+  padding: 0 var(--space-4);
+}
+
+.info-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  background: linear-gradient(135deg, var(--warning-light), var(--warning-light));
+  border: 1px solid var(--warning-medium);
+  border-radius: var(--radius-lg);
+  color: var(--warning-dark);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.info-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* Form Select Enhanced Styles */
+.form-select-enhanced {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right var(--space-3) center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+  padding-right: var(--space-10);
+}
+
+.form-select-enhanced:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%233b82f6' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+}
+
+/* Animations for form transitions */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.form-group-enhanced {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Institution Input Group Styles */
+.institution-input-group {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.institution-input-group .form-input-wrapper {
+  flex: 1;
+  min-width: 200px;
+}
+
+.institution-edit-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  white-space: nowrap;
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--primary-300);
+  background-color: var(--primary-50);
+  color: var(--primary-700);
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-base);
+  cursor: pointer;
+}
+
+.institution-edit-btn:hover {
+  background-color: var(--primary-100);
+  border-color: var(--primary-400);
+  color: var(--primary-800);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.institution-edit-btn:focus {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 640px) {
+  .info-badge {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-xs);
+  }
+
+  .form-select-enhanced {
+    background-size: 0.875rem;
+    padding-right: var(--space-8);
+  }
+
+  .institution-input-group {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .institution-input-group .form-input-wrapper {
+    min-width: 100%;
+  }
+
+  .institution-edit-btn {
+    align-self: flex-start;
+    width: 100%;
+    justify-content: center;
+  }
+}
