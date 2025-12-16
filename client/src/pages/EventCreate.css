@@ -1,0 +1,398 @@
+/* EventCreate Page Styles */
+.event-create {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--neutral-50) 100%);
+  padding: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-create .card {
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2xl);
+  border: 1px solid var(--neutral-200);
+  max-width: 600px;
+  width: 100%;
+  padding: var(--space-8);
+  animation: slideUp var(--transition-base);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.event-create h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--neutral-800);
+  margin-bottom: var(--space-2);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.event-create h1::before {
+  content: '📅';
+  font-size: var(--font-size-3xl);
+}
+
+.event-create p {
+  color: var(--neutral-600);
+  text-align: center;
+  margin-bottom: var(--space-6);
+  font-size: var(--font-size-base);
+}
+
+/* Form Styles */
+.event-create .form-group {
+  margin-bottom: var(--space-6);
+}
+
+.event-create .form-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--neutral-700);
+  margin-bottom: var(--space-2);
+  transition: color var(--transition-fast);
+}
+
+.event-create .form-control {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--neutral-200);
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--neutral-900);
+  background-color: white;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.event-create .form-control::placeholder {
+  color: var(--neutral-400);
+  font-style: italic;
+}
+
+.event-create .form-control:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  transform: translateY(-1px);
+}
+
+.event-create .form-control:hover {
+  border-color: var(--neutral-300);
+}
+
+.event-create textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Invalid Input Styles */
+.event-create .form-control.is-invalid {
+  border-color: var(--error);
+  background-color: var(--error-light);
+}
+
+.event-create .form-control.is-invalid:focus {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.event-create .error {
+  display: block;
+  color: var(--error);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  margin-top: var(--space-1);
+  animation: slideIn var(--transition-fast);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Help Text Styles */
+.event-create .text-muted {
+  display: block;
+  color: var(--neutral-500);
+  font-size: var(--font-size-xs);
+  margin-top: var(--space-2);
+  font-style: italic;
+}
+
+.event-create .text-muted::before {
+  content: '💡 ';
+}
+
+/* Button Styles */
+.event-create .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  min-height: 44px;
+  position: relative;
+  overflow: hidden;
+}
+
+.event-create .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-slow);
+}
+
+.event-create .btn:hover::before {
+  left: 100%;
+}
+
+.event-create .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.event-create .btn:disabled::before {
+  display: none;
+}
+
+/* Primary Button */
+.event-create .btn-primary {
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.event-create .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-800) 100%);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.event-create .btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-md);
+}
+
+/* Secondary Button */
+.event-create .btn-secondary {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+  border: 2px solid var(--neutral-200);
+}
+
+.event-create .btn-secondary:hover:not(:disabled) {
+  background: var(--neutral-200);
+  color: var(--neutral-800);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.event-create .btn-secondary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Button Group */
+.event-create .btn-group {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  margin-top: var(--space-8);
+}
+
+.event-create .ml-2 {
+  margin-left: var(--space-2);
+}
+
+/* Loading State */
+.event-create .btn-loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.event-create .btn-loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid white;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .event-create {
+    padding: var(--space-4);
+  }
+
+  .event-create .card {
+    padding: var(--space-6);
+    margin: var(--space-2);
+  }
+
+  .event-create h1 {
+    font-size: var(--font-size-xl);
+  }
+
+  .event-create .form-control {
+    font-size: var(--font-size-sm);
+  }
+
+  .event-create .btn-group {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .event-create .btn {
+    width: 100%;
+  }
+
+  .event-create .ml-2 {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-create {
+    padding: var(--space-2);
+  }
+
+  .event-create .card {
+    padding: var(--space-4);
+    margin: 0;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+
+  .event-create h1 {
+    font-size: var(--font-size-lg);
+  }
+
+  .event-create h1::before {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+/* Focus Management */
+.event-create .form-control:focus,
+.event-create .btn:focus {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .event-create .card {
+    border: 2px solid var(--neutral-600);
+  }
+
+  .event-create .form-control {
+    border-width: 2px;
+  }
+
+  .event-create .btn {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .event-create .card,
+  .event-create .form-control,
+  .event-create .btn,
+  .event-create .error {
+    animation: none;
+    transition: none;
+  }
+
+  .event-create .btn::before {
+    display: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .event-create {
+    background: linear-gradient(135deg, var(--neutral-900) 0%, var(--neutral-800) 100%);
+  }
+
+  .event-create .card {
+    background: var(--neutral-800);
+    border-color: var(--neutral-700);
+  }
+
+  .event-create h1 {
+    color: var(--neutral-100);
+  }
+
+  .event-create p {
+    color: var(--neutral-400);
+  }
+
+  .event-create .form-label {
+    color: var(--neutral-300);
+  }
+
+  .event-create .form-control {
+    background: var(--neutral-700);
+    border-color: var(--neutral-600);
+    color: var(--neutral-100);
+  }
+
+  .event-create .form-control::placeholder {
+    color: var(--neutral-500);
+  }
+
+  .event-create .text-muted {
+    color: var(--neutral-500);
+  }
+}

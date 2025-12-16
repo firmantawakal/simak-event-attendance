@@ -50,6 +50,21 @@ class AttendanceController {
       // Create attendance record
       const attendance = await Attendance.create(attendanceRecordData);
 
+      // Emit real-time update to all clients viewing this event
+      const io = req.app.get('io');
+      if (io) {
+        io.to(`event-${event.id}`).emit('new-attendance', {
+          id: attendance.id,
+          guest_name: attendance.guest_name,
+          institution: attendance.institution,
+          position: attendance.position,
+          category: attendance.category,
+          arrival_time: attendance.arrival_time,
+          event_name: event.name,
+          event_slug: event.slug
+        });
+      }
+
       res.status(201).json({
         message: 'Attendance recorded successfully',
         attendance: {

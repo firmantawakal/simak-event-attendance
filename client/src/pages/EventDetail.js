@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import apiClient from '../api/client';
 import AdminInstitutionModal from '../components/AdminInstitutionModal';
 import './EventDetail.css';
-import { Building, Download, User2 } from 'lucide-react';
+import { Building, Download, User2, Monitor } from 'lucide-react';
 
 const EventDetail = () => {
   const { id } = useParams();
@@ -240,6 +240,10 @@ const EventDetail = () => {
                   <Link to={`/attend/${event.slug}`} className="btn event-action-button">
                     <User2 className="inline-icon"/>
                     Daftar Kehadiran Digital
+                  </Link>
+                  <Link to={`/display/${event.slug}`} className="btn event-action-button display-button" target="_blank">
+                    <Monitor className="inline-icon"/>
+                    Live Guest Display
                   </Link>
                   <button
                     onClick={handleExport}

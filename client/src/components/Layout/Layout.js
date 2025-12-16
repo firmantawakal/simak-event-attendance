@@ -11,6 +11,8 @@ const Layout = ({ children }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const isAttendPage = location.pathname.startsWith('/attend');
+  const isDisplayPage = location.pathname.startsWith('/display');
+  const isFullPage = isAttendPage || isDisplayPage;
 
   useEffect(() => {
     // Check if user is logged in on component mount
@@ -97,7 +99,7 @@ const Layout = ({ children }) => {
         Skip to main content
       </a>
 
-      {!isAttendPage && (
+      {!isFullPage && (
         <nav className="navbar" role="navigation" aria-label="Main navigation">
           <div className="container">
             <div className="navbar-brand-container">
@@ -271,7 +273,7 @@ const Layout = ({ children }) => {
       </main>
 
       {/* Footer */}
-      {!isAttendPage && (
+      {!isFullPage && (
         <footer className="footer" role="contentinfo">
           <div className="container">
             <div className="footer-content">

@@ -77,14 +77,14 @@ class EventsController {
       const existingEvent = await Event.findBySlug(eventData.slug);
       if (existingEvent) {
         return res.status(409).json({
-          error: 'Slug already exists',
-          message: 'An event with this slug already exists. Please choose a different slug.'
+          error: 'Slug sudah ada',
+          message: 'Acara dengan slug ini sudah ada. Silakan pilih slug yang berbeda.'
         });
       }
 
       const event = await Event.create(eventData);
       res.status(201).json({
-        message: 'Event created successfully',
+        message: 'Acara berhasil dibuat',
         event
       });
     } catch (error) {

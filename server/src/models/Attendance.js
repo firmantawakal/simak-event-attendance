@@ -74,7 +74,7 @@ class Attendance {
       FROM attendance a
       JOIN events e ON a.event_id = e.id
       ${whereClause}
-      ORDER BY a.arrival_time DESC
+      ORDER BY a.created_at DESC
       LIMIT ? OFFSET ?
     `;
 
@@ -87,7 +87,7 @@ class Attendance {
       FROM attendance a
       JOIN events e ON a.event_id = e.id
       WHERE a.event_id = ?
-      ORDER BY a.arrival_time DESC
+      ORDER BY a.created_at DESC
       LIMIT 50
     `;
     const attendance = await query(simpleSql, [eventId]);

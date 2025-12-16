@@ -10,8 +10,15 @@ class Event {
       VALUES (?, ?, ?, ?, ?)
     `;
 
-    const [result] = await db.query(sql, [name, slug, description, date, location]);
-    return this.findById(result.insertId);
+    try {
+      // For INSERT operations, we need the full result object to get insertId
+      const connection = db.pool;
+      const [result] = await connection.execute(sql, [name, slug, description, date, location]);
+      return this.findById(result.insertId);
+    } catch (error) {
+      console.error('Error creating event:', error);
+      throw error;
+    }
   }
 
   // Find event by ID
