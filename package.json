@@ -1,7 +1,7 @@
 {
-  "name": "simak-event-attendance",
+  "name": "universitas-dumai-event-attendance",
   "version": "1.0.0",
-  "description": "Campus Digital Guestbook Application with React + Express + MySQL",
+  "description": "Universitas Dumai Digital Guestbook Application with React + Express + MySQL",
   "main": "server/src/app.js",
   "scripts": {
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
@@ -18,11 +18,15 @@
     "mysql",
     "guestbook",
     "attendance",
-    "campus"
+    "campus",
+    "universitas-dumai"
   ],
-  "author": "SIMAK Team",
+  "author": "Universitas Dumai",
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "socket.io": "^4.8.1"
   }
 }

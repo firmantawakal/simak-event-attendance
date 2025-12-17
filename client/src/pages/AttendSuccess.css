@@ -1,0 +1,36 @@
+/* Attend Success Page Styles */
+.attend-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: var(--space-6);
+}
+
+.attend-success .card {
+  max-width: 500px;
+  padding: var(--space-10);
+  text-align: center;
+}
+
+.success-icon {
+  width: 4rem;
+  height: 4rem;
+  color: var(--success);
+  margin-bottom: var(--space-6);
+}
+
+.attend-success h1 {
+  color: var(--neutral-900);
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+}
+
+.success-actions {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  justify-content: center;
+  flex-wrap: wrap;
+}

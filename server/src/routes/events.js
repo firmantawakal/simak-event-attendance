@@ -16,6 +16,9 @@ router.get('/past', EventsController.getPastEvents);
 // GET /api/events/slug/:slug - Get event by slug
 router.get('/slug/:slug', EventsController.getEventBySlug);
 
+// GET /api/events/stats - Get global system statistics
+router.get('/stats', EventsController.getSystemStats);
+
 // GET /api/events/:id - Get event by ID
 router.get('/:id',
   validate(eventSchemas.id, 'params'),

@@ -1,7 +1,7 @@
 {
-  "name": "simak-attendance-server",
+  "name": "universitas-dumai-attendance-server",
   "version": "1.0.0",
-  "description": "Express.js backend for SIMAK Event Attendance System",
+  "description": "Express.js backend for Universitas Dumai Event Attendance System",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
@@ -15,7 +15,7 @@
     "api",
     "attendance"
   ],
-  "author": "SIMAK Team",
+  "author": "Universitas Dumai",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",

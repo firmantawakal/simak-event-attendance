@@ -7,6 +7,9 @@ class AttendanceController {
     try {
       const { eventSlug, ...attendanceData } = req.body;
 
+      // Log the received data for debugging
+      console.log('Received attendance data:', { eventSlug, attendanceData });
+
       // Find event by slug
       const event = await Event.findBySlug(eventSlug);
       if (!event) {
@@ -30,11 +33,37 @@ class AttendanceController {
         });
       }
 
+      // Prepare data for attendance creation
+      const attendanceRecordData = {
+        event_id: event.id,
+        guest_name: attendanceData.guestName,
+        institution: attendanceData.institution,
+        position: attendanceData.position || null,
+        phone: attendanceData.phone || null,
+        email: attendanceData.email || null,
+        representative_count: attendanceData.representativeCount || 1,
+        category: attendanceData.category || 'guest'
+      };
+
+      console.log('Attendance record data:', attendanceRecordData);
+
       // Create attendance record
-      const attendance = await Attendance.create({
-        ...attendanceData,
-        event_id: event.id
-      });
+      const attendance = await Attendance.create(attendanceRecordData);
+
+      // Emit real-time update to all clients viewing this event
+      const io = req.app.get('io');
+      if (io) {
+        io.to(`event-${event.id}`).emit('new-attendance', {
+          id: attendance.id,
+          guest_name: attendance.guest_name,
+          institution: attendance.institution,
+          position: attendance.position,
+          category: attendance.category,
+          arrival_time: attendance.arrival_time,
+          event_name: event.name,
+          event_slug: event.slug
+        });
+      }
 
       res.status(201).json({
         message: 'Attendance recorded successfully',

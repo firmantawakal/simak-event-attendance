@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import apiClient from '../api/client';
+import './EventCreate.css';
 
 const EventCreate = () => {
   const navigate = useNavigate();
@@ -44,12 +45,12 @@ const EventCreate = () => {
         date: new Date(data.date).toISOString()
       };
 
-      await apiClient.post('/api/events', eventData);
+      await apiClient.post('/events', eventData);
 
-      toast.success('Event created successfully!');
+      toast.success('Acara berhasil dibuat!');
       navigate('/events');
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to create event';
+      const errorMessage = error.response?.data?.message || 'Gagal membuat acara';
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -59,21 +60,21 @@ const EventCreate = () => {
   return (
     <div className="event-create">
       <div className="card">
-        <h1>Create New Event</h1>
-        <p>Fill in the details below to create a new event</p>
+        <h1>Buat Acara Baru</h1>
+        <p>Isi detail di bawah ini untuk membuat acara baru</p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-3">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
-            <label className="form-label">Event Name *</label>
+            <label className="form-label">Nama Acara *</label>
             <input
               type="text"
               className={`form-control ${errors.name ? 'is-invalid' : ''}`}
-              placeholder="Enter event name"
+              placeholder="Masukkan nama acara"
               {...register('name', {
-                required: 'Event name is required',
+                required: 'Nama acara wajib diisi',
                 minLength: {
                   value: 3,
-                  message: 'Event name must be at least 3 characters'
+                  message: 'Nama acara minimal 3 karakter'
                 }
               })}
             />
@@ -87,12 +88,12 @@ const EventCreate = () => {
             <input
               type="text"
               className={`form-control ${errors.slug ? 'is-invalid' : ''}`}
-              placeholder="event-slug"
+              placeholder="nama-acara"
               {...register('slug', {
-                required: 'URL slug is required',
+                required: 'URL slug wajib diisi',
                 pattern: {
                   value: /^[a-z0-9-]+$/,
-                  message: 'Slug can only contain lowercase letters, numbers, and hyphens'
+                  message: 'Slug hanya boleh mengandung huruf kecil, angka, dan tanda hubung'
                 }
               })}
             />
@@ -100,20 +101,20 @@ const EventCreate = () => {
               <span className="error">{errors.slug.message}</span>
             )}
             <small className="text-muted">
-              This will be used in the URL: /attend/{watch('slug') || 'event-slug'}
+              Ini akan digunakan dalam URL: /attend/{watch('slug') || 'nama-acara'}
             </small>
           </div>
 
           <div className="form-group">
-            <label className="form-label">Description</label>
+            <label className="form-label">Deskripsi</label>
             <textarea
               className={`form-control ${errors.description ? 'is-invalid' : ''}`}
               rows="3"
-              placeholder="Enter event description (optional)"
+              placeholder="Masukkan deskripsi acara (opsional)"
               {...register('description', {
                 maxLength: {
                   value: 1000,
-                  message: 'Description cannot exceed 1000 characters'
+                  message: 'Deskripsi tidak boleh lebih dari 1000 karakter'
                 }
               })}
             />
@@ -123,12 +124,12 @@ const EventCreate = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Date and Time *</label>
+            <label className="form-label">Tanggal dan Waktu *</label>
             <input
               type="datetime-local"
               className={`form-control ${errors.date ? 'is-invalid' : ''}`}
               {...register('date', {
-                required: 'Date and time are required'
+                required: 'Tanggal dan waktu wajib diisi'
               })}
             />
             {errors.date && (
@@ -137,11 +138,11 @@ const EventCreate = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Location</label>
+            <label className="form-label">Lokasi</label>
             <input
               type="text"
               className={`form-control ${errors.location ? 'is-invalid' : ''}`}
-              placeholder="Enter event location (optional)"
+              placeholder="Masukkan lokasi acara (opsional)"
               {...register('location')}
             />
             {errors.location && (
@@ -149,21 +150,21 @@ const EventCreate = () => {
             )}
           </div>
 
-          <div className="form-group">
+          <div className="btn-group">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => navigate('/events')}
+              disabled={loading}
+            >
+              Batal
+            </button>
             <button
               type="submit"
               className="btn btn-primary"
               disabled={loading}
             >
-              {loading ? 'Creating...' : 'Create Event'}
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary ml-2"
-              onClick={() => navigate('/events')}
-              disabled={loading}
-            >
-              Cancel
+              {loading ? 'Membuat...' : 'Buat Acara'}
             </button>
           </div>
         </form>

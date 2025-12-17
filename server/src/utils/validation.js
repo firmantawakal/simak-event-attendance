@@ -29,9 +29,9 @@ const attendanceSchemas = {
     eventSlug: Joi.string().required().min(3).max(255).trim(),
     guestName: Joi.string().required().min(2).max(255).trim(),
     institution: Joi.string().required().min(2).max(255).trim(),
-    position: Joi.string().optional().max(255).trim(),
-    phone: Joi.string().optional().max(20).trim(),
-    email: Joi.string().optional().email().max(255).trim(),
+    position: Joi.string().optional().max(255).trim().allow(null, ''),
+    phone: Joi.string().optional().max(20).trim().allow(null, ''),
+    email: Joi.string().optional().email().max(255).trim().allow(null, ''),
     representativeCount: Joi.number().integer().min(1).max(100).default(1),
     category: Joi.string().optional().valid('official_invitation', 'sponsor', 'guest', 'other').trim()
   }),

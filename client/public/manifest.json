@@ -1,0 +1,13 @@
+{
+  "short_name": "E-GuestBook",
+  "name": "E-GuestBook - Buku Tamu Digital Universitas Dumai",
+  "description": "Platform resmi Universitas Dumai untuk buku tamu digital dan sistem kehadiran acara yang modern dan terintegrasi",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1e40af",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "id-ID",
+  "dir": "ltr"
+}
