@@ -48,28 +48,57 @@ class Event {
   // Count total events
   static async count() {
     const sql = 'SELECT COUNT(*) as total FROM events';
-    const [result] = await db.query(sql);
-    return result.total;
+    const result = await db.query(sql);
+    return result[0]?.total || 0;
   }
 
   // Update event
   static async update(id, eventData) {
     const { name, slug, description, date, location } = eventData;
 
+    // Build dynamic UPDATE query based on provided fields
+    const updateFields = [];
+    const updateValues = [];
+
+    if (name !== undefined) {
+      updateFields.push('name = ?');
+      updateValues.push(name);
+    }
+    if (slug !== undefined) {
+      updateFields.push('slug = ?');
+      updateValues.push(slug);
+    }
+    if (description !== undefined) {
+      updateFields.push('description = ?');
+      updateValues.push(description);
+    }
+    if (date !== undefined) {
+      updateFields.push('date = ?');
+      updateValues.push(date);
+    }
+    if (location !== undefined) {
+      updateFields.push('location = ?');
+      updateValues.push(location);
+    }
+
+    // Always include updated_at
+    updateFields.push('updated_at = CURRENT_TIMESTAMP');
+    updateValues.push(id);
+
     const sql = `
       UPDATE events
-      SET name = ?, slug = ?, description = ?, date = ?, location = ?, updated_at = CURRENT_TIMESTAMP
+      SET ${updateFields.join(', ')}
       WHERE id = ?
     `;
 
-    const [result] = await db.query(sql, [name, slug, description, date, location, id]);
+    const result = await db.query(sql, updateValues);
     return result.affectedRows > 0 ? this.findById(id) : null;
   }
 
   // Delete event
   static async delete(id) {
     const sql = 'DELETE FROM events WHERE id = ?';
-    const [result] = await db.query(sql, [id]);
+    const result = await db.query(sql, [id]);
     return result.affectedRows > 0;
   }
 

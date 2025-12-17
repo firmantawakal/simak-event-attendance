@@ -1,0 +1,212 @@
+/* Delete Confirmation Modal Styles */
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  padding: var(--space-4);
+}
+
+.delete-modal {
+  background: white;
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 28rem;
+  border: 1px solid var(--neutral-200);
+  overflow: hidden;
+}
+
+.delete-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-6) var(--space-8);
+  background: #fef2f2;
+  border-bottom: 1px solid #fecaca;
+}
+
+.delete-modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: #dc2626;
+  color: white;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.delete-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-lg);
+  color: #7f1d1d;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.delete-modal-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #991b1b;
+}
+
+.delete-modal-close:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.delete-modal-content {
+  padding: var(--space-8);
+  text-align: center;
+}
+
+.delete-modal-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--neutral-900);
+  margin: 0 0 var(--space-4) 0;
+}
+
+.delete-modal-message {
+  font-size: var(--font-size-base);
+  color: var(--neutral-700);
+  margin: 0 0 var(--space-4) 0;
+  line-height: 1.5;
+}
+
+.delete-modal-warning {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  margin: 0;
+}
+
+.delete-modal-actions {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-8);
+  background: var(--neutral-50);
+  border-top: 1px solid var(--neutral-200);
+}
+
+.delete-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2.5) var(--space-6);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  text-decoration: none;
+  min-height: 2.5rem;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.delete-button-cancel {
+  background: white;
+  color: var(--neutral-700);
+  border: 2px solid var(--neutral-300);
+}
+
+.delete-button-cancel:hover:not(:disabled) {
+  background: var(--neutral-50);
+  border-color: var(--neutral-400);
+  color: var(--neutral-800);
+}
+
+.delete-button-cancel:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.delete-button-confirm {
+  background: #dc2626;
+  color: white;
+  border: 2px solid #dc2626;
+}
+
+.delete-button-confirm:hover:not(:disabled) {
+  background: #b91c1c;
+  border-color: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.delete-button-confirm:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.delete-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .delete-modal-overlay {
+    padding: var(--space-2);
+  }
+
+  .delete-modal-header {
+    padding: var(--space-4) var(--space-6);
+  }
+
+  .delete-modal-content {
+    padding: var(--space-6);
+  }
+
+  .delete-modal-actions {
+    padding: var(--space-4) var(--space-6);
+    flex-direction: column-reverse;
+  }
+
+  .delete-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

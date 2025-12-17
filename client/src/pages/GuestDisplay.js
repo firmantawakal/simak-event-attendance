@@ -82,18 +82,15 @@ const GuestDisplay = () => {
       socketRef.current = io('http://localhost:5000');
 
       socketRef.current.on('connect', () => {
-        console.log('Connected to server');
         setConnected(true);
         socketRef.current.emit('join-event', event.id);
       });
 
       socketRef.current.on('disconnect', () => {
-        console.log('Disconnected from server');
         setConnected(false);
       });
 
       socketRef.current.on('new-attendance', (newGuest) => {
-        console.log('New guest registered:', newGuest);
         setGuests(prev => {
           // Check if guest already exists by ID
           const exists = prev.some(guest => guest.id === newGuest.id);
@@ -170,7 +167,10 @@ const GuestDisplay = () => {
       {/* Header */}
       <div className="display-header">
         <div className="event-info">
-          <h1 className="event-title">{event.name}</h1>
+          <div className="event-header-top">
+            <img src="/logo-unidum.png" alt="Campus Logo" className="campus-logo" />
+            <h1 className="event-title">{event.name}</h1>
+          </div>
           <div className="event-meta">
             <div className="meta-item">
               <Clock size={20} />

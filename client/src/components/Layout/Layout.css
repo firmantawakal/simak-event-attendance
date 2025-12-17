@@ -50,6 +50,13 @@
   flex-shrink: 0;
 }
 
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .brand-text {
   background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
   -webkit-background-clip: text;
@@ -407,6 +414,13 @@
   color: var(--primary-400);
 }
 
+.footer-logo {
+  height: 24px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.8;
+}
+
 .footer-text {
   color: var(--neutral-400);
   font-size: var(--font-size-sm);
@@ -540,5 +554,16 @@
 
   .user-name {
     font-size: 0.8rem;
+  }
+
+  .navbar-logo {
+    height: 35px;
+  }
+}
+
+/* Responsive navbar logo for mobile */
+@media (max-width: 480px) {
+  .navbar-logo {
+    height: 30px;
   }
 }

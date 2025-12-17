@@ -33,7 +33,6 @@ const EventsList = () => {
       setLoading(true);
       const response = await apiClient.get('/events');
       setEvents(response.data.events);
-      console.log('Events loaded successfully:', response.data.events);
     } catch (err) {
       let errorMessage = 'Gagal mengambil data acara';
 

@@ -22,11 +22,6 @@ const AdminInstitutionModal = ({ isOpen, onClose, onSave }) => {
 
   useEffect(() => {
     if (isOpen) {
-      // Debug: log current user info
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      console.log('Current user:', user);
-      console.log('User role:', user.role);
-
       fetchInstitutions();
     }
   }, [isOpen]);
@@ -35,7 +30,6 @@ const AdminInstitutionModal = ({ isOpen, onClose, onSave }) => {
     try {
       setLoading(true);
       const response = await apiClient.get('/institutions');
-      console.log('Fetched institutions:', response.data.institutions);
       setInstitutions(response.data.institutions || []);
     } catch (error) {
       console.error('Error fetching institutions:', error);
@@ -105,9 +99,7 @@ const AdminInstitutionModal = ({ isOpen, onClose, onSave }) => {
   const handleDeleteInstitution = async (id, name) => {
     if (window.confirm(`Apakah Anda yakin ingin menghapus "${name}"?`)) {
       try {
-        console.log('Attempting to delete institution:', { id, name });
         const response = await apiClient.delete(`/institutions/${id}`);
-        console.log('Delete response:', response.data);
         await fetchInstitutions();
         toast.success('Institusi berhasil dihapus');
       } catch (error) {

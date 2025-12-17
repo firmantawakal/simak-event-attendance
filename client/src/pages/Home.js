@@ -7,7 +7,8 @@ import {
   Download,
   Shield,
   Zap,
-  Building
+  Building,
+  RefreshCw
 } from 'lucide-react';
 import './Home.css';
 
@@ -18,41 +19,42 @@ const Home = () => {
     totalInstitutions: 0
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const fetchStats = async (isRefresh = false) => {
+    try {
+      if (isRefresh) {
+        setIsRefreshing(true);
+      }
+
+      // Fetch global statistics from the new efficient endpoint
+      const statsResponse = await apiClient.get('/events/stats');
+      const { stats } = statsResponse.data;
+
+      setStats({
+        totalEvents: stats.totalEvents || 0,
+        totalAttendees: stats.totalAttendees || 0,
+        totalInstitutions: stats.totalInstitutions || 0
+      });
+    } catch (error) {
+      console.error('Failed to fetch stats:', error);
+      // Set default values on error
+      setStats({
+        totalEvents: 0,
+        totalAttendees: 0,
+        totalInstitutions: 0
+      });
+    } finally {
+      setIsLoading(false);
+      setIsRefreshing(false);
+    }
+  };
+
+  const handleRefreshStats = () => {
+    fetchStats(true);
+  };
 
   useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        // Fetch basic stats (this would need a new endpoint)
-        const eventsResponse = await apiClient.get('/events');
-        const events = eventsResponse.data;
-
-        let totalAttendees = 0;
-        let institutions = new Set();
-
-        for (const event of events) {
-          try {
-            const attendanceResponse = await apiClient.get(`/events/${event.id}/attendance`);
-            const attendance = attendanceResponse.data;
-            totalAttendees += attendance.length;
-            attendance.forEach(record => institutions.add(record.institution));
-          } catch (error) {
-            // Skip if no attendance data
-            continue;
-          }
-        }
-
-        setStats({
-          totalEvents: events.length,
-          totalAttendees,
-          totalInstitutions: institutions.size
-        });
-      } catch (error) {
-        console.error('Failed to fetch stats:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchStats();
   }, []);
 
@@ -61,9 +63,12 @@ const Home = () => {
       <div className="hero-section">
         <div className="hero-content">
           <div className="hero-text">
-            <h1>SIMAK Event</h1>
+            <div className="hero-header">
+              <img src="/logo-unidum.png" alt="Campus Logo" className="campus-logo" />
+              <h1>E-GuestBook Universitas Dumai</h1>
+            </div>
             <p className="hero-subtitle">
-              Sistem Informasi Manajemen Acara Kampus - Universitas Dumai
+              Sistem Buku Tamu Digital - Universitas Dumai
             </p>
             <div className="hero-buttons">
               <Link to="/login" className="btn btn-primary">
@@ -89,7 +94,18 @@ const Home = () => {
 
       <div className="stats-section">
         <div className="container">
-          <h2 className="section-title">Statistik Sistem Kampus</h2>
+          <div className="stats-header">
+            <h2 className="section-title">Statistik Sistem Kampus</h2>
+            <button
+              onClick={handleRefreshStats}
+              disabled={isRefreshing}
+              className="refresh-button"
+              title="Refresh Statistics"
+            >
+              <RefreshCw className={`icon ${isRefreshing ? 'spinning' : ''}`} />
+              {isRefreshing ? 'Memperbarui...' : 'Perbarui'}
+            </button>
+          </div>
           <div className="stats-grid">
             <div className="stat-card">
               <div className="stat-number">
@@ -127,7 +143,7 @@ const Home = () => {
 
       <div className="features-section">
         <div className="container">
-          <h2 className="section-title">Fitur Unggulan SIMAK Event</h2>
+          <h2 className="section-title">Fitur Unggulan E-GuestBook</h2>
           <div className="features-grid">
             <div className="feature-card">
               <Smartphone className="feature-icon" />

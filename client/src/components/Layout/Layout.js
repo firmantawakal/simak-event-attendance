@@ -104,7 +104,7 @@ const Layout = ({ children }) => {
           <div className="container">
             <div className="navbar-brand-container">
               <Link to="/" className="navbar-brand" aria-label="Universitas Dumai Home">
-                <Building2 className="brand-icon" />
+                <img src="/logo-unidum.png" alt="Campus Logo" className="navbar-logo" />
                 <span className="brand-text">Universitas Dumai</span>
               </Link>
             </div>
@@ -278,7 +278,7 @@ const Layout = ({ children }) => {
           <div className="container">
             <div className="footer-content">
               <div className="footer-brand">
-                <Building2 className="footer-brand-icon" />
+                <img src="/logo-unidum.png" alt="Campus Logo" className="footer-logo" />
                 <span>Universitas Dumai</span>
               </div>
               <div className="footer-text">

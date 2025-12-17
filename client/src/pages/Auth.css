@@ -22,6 +22,16 @@
   margin-bottom: 30px;
 }
 
+.auth-logo {
+  margin-bottom: 20px;
+}
+
+.campus-logo {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+}
+
 .auth-header h1 {
   color: #333;
   margin-bottom: 10px;

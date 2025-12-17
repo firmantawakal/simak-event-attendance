@@ -1,18 +1,24 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import apiClient from '../api/client';
 import AdminInstitutionModal from '../components/AdminInstitutionModal';
+import EventEditModal from '../components/EventEditModal';
+import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
+import AdminActionDropdown from '../components/AdminActionDropdown';
 import './EventDetail.css';
-import { Building, Download, User2, Monitor } from 'lucide-react';
+import { Download, User2, Monitor } from 'lucide-react';
 
 const EventDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [attendance, setAttendance] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [stats, setStats] = useState(null);
   const [showInstitutionModal, setShowInstitutionModal] = useState(false);
+  const [showEventEditModal, setShowEventEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   const fetchEventDetails = useCallback(async () => {
@@ -77,12 +83,10 @@ const EventDetail = () => {
 
       // For testing purposes, set admin to true if no admin detection works
       if (!isAdminUser && !userStr && !userRole) {
-        console.log('No user found, setting admin to true for testing');
         isAdminUser = true;
       }
 
       setIsAdmin(isAdminUser);
-      console.log('Admin Status Check:', { userStr, userRole, isAdmin: isAdminUser });
     };
     checkAdminStatus();
   }, [fetchEventDetails]);
@@ -133,6 +137,29 @@ const EventDetail = () => {
     window.location.reload();
   };
 
+  const handleEditEvent = () => {
+    setShowEventEditModal(true);
+  };
+
+  const handleEventEditSave = (updatedEvent) => {
+    setEvent(updatedEvent);
+    setShowEventEditModal(false);
+    fetchEventDetails();
+  };
+
+  const handleDeleteEvent = async () => {
+    try {
+      await apiClient.delete(`/events/${event.id}`);
+      // Navigate back to events list after successful deletion
+      navigate('/events');
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      alert('Gagal menghapus acara. Silakan coba lagi.');
+      setShowDeleteModal(false);
+    }
+  };
+
+  
   if (loading) {
     return (
       <div className="event-detail-container">
@@ -236,7 +263,13 @@ const EventDetail = () => {
               </div>
               <div className="event-header-actions">
                 <div className="event-header-actions-wrapper">
-                  
+                  {isAdmin && (
+                      <AdminActionDropdown
+                        onEditEvent={handleEditEvent}
+                        onDeleteEvent={() => setShowDeleteModal(true)}
+                        onManageInstitutions={() => setShowInstitutionModal(true)}
+                      />
+                    )}
                   <Link to={`/attend/${event.slug}`} className="btn event-action-button">
                     <User2 className="inline-icon"/>
                     Daftar Kehadiran Digital
@@ -253,19 +286,6 @@ const EventDetail = () => {
                     <Download className="inline-icon"/>
                     Unduh Laporan Kehadiran
                   </button>
-                  {(() => {
-                    console.log('Should show admin button:', isAdmin);
-                    return isAdmin && (
-                      <button
-                        onClick={() => setShowInstitutionModal(true)}
-                        className="event-action-button btn"
-                        title="Kelola Institusi"
-                      >
-                        <Building className="inline-icon"/>
-                        Kelola Institusi
-                      </button>
-                    );
-                  })()}
                 </div>
               </div>
             </div>
@@ -417,6 +437,23 @@ const EventDetail = () => {
         isOpen={showInstitutionModal}
         onClose={() => setShowInstitutionModal(false)}
         onSave={handleInstitutionModalSave}
+      />
+
+      {/* Event Edit Modal */}
+      <EventEditModal
+        isOpen={showEventEditModal}
+        onClose={() => setShowEventEditModal(false)}
+        onSave={handleEventEditSave}
+        event={event}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeleteEvent}
+        itemType="Acara"
+        itemName={event?.name || 'Acara ini'}
       />
     </div>
   );

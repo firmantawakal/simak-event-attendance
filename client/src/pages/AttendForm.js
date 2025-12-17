@@ -134,12 +134,10 @@ const AttendForm = () => {
 
       // For testing purposes, set admin to true if no admin detection works
       if (!isAdminUser && !userStr && !userRole) {
-        console.log('No user found in AttendForm, setting admin to true for testing');
         isAdminUser = true;
       }
 
       setIsAdmin(isAdminUser);
-      console.log('AttendForm Admin Status Check:', { userStr, userRole, isAdmin: isAdminUser });
     };
     checkAdminStatus();
   }, [fetchEvent, fetchInstitutions]);

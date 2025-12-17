@@ -46,6 +46,9 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
+          <div className="auth-logo">
+            <img src="/logo-unidum.png" alt="Campus Logo" className="campus-logo" />
+          </div>
           <h1>Selamat Datang Kembali</h1>
           <p>Login untuk mengelola acara Anda</p>
         </div>

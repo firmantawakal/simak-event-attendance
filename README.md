@@ -1,4 +1,4 @@
-# SIMAK - Campus Digital Guestbook Application
+# E-GuestBook - Buku Tamu Digital Universitas Dumai
 
 A modern digital guestbook application for campus events, built with React.js, Express.js, and MySQL. This application replaces paper-based guestbooks with an electronic system that simplifies attendance tracking and reporting.
 

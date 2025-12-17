@@ -1,4 +1,5 @@
 const Event = require('../models/Event');
+const Attendance = require('../models/Attendance');
 
 class EventsController {
   // GET /api/events - Get all events
@@ -166,6 +167,55 @@ class EventsController {
 
       res.json({ event });
     } catch (error) {
+      next(error);
+    }
+  }
+
+  // GET /api/events/stats - Get global system statistics
+  static async getSystemStats(req, res, next) {
+    try {
+      // Get all events count
+      const totalEvents = await Event.count();
+
+      // Get global attendance statistics using a single efficient query
+      const { pool } = require('../db');
+
+      const [attendanceStats] = await pool.execute(`
+        SELECT
+          COUNT(*) as total_attendees,
+          COUNT(DISTINCT institution) as total_institutions,
+          SUM(representative_count) as total_represented,
+          AVG(representative_count) as avg_represented,
+          MIN(arrival_time) as first_arrival,
+          MAX(arrival_time) as last_arrival
+        FROM attendance
+      `);
+
+      const [recentActivity] = await pool.execute(`
+        SELECT
+          COUNT(*) as recent_attendees,
+          COUNT(DISTINCT institution) as recent_institutions
+        FROM attendance
+        WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+      `);
+
+      const stats = {
+        totalEvents,
+        totalAttendees: attendanceStats[0]?.total_attendees || 0,
+        totalInstitutions: attendanceStats[0]?.total_institutions || 0,
+        totalRepresented: attendanceStats[0]?.total_represented || 0,
+        avgRepresented: parseFloat(attendanceStats[0]?.avg_represented || 0).toFixed(1),
+        firstArrival: attendanceStats[0]?.first_arrival,
+        lastArrival: attendanceStats[0]?.last_arrival,
+        recentActivity: {
+          attendeesThisWeek: recentActivity[0]?.recent_attendees || 0,
+          institutionsThisWeek: recentActivity[0]?.recent_institutions || 0
+        }
+      };
+
+      res.json({ stats });
+    } catch (error) {
+      console.error('Error fetching system stats:', error);
       next(error);
     }
   }
