@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic Connectivity Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container { max-width: 600px; margin: 0 auto; }
+        .test {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        .success { color: #4CAF50; font-weight: bold; font-size: 24px; }
+        .error { color: #ff6b6b; font-weight: bold; font-size: 24px; }
+        .info { color: #64B5F6; }
+        h1 { text-align: center; font-size: 36px; margin-bottom: 30px; }
+        h2 { color: #81C784; }
+        code {
+            background: rgba(0,0,0,0.3);
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        .steps { background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; }
+        .step { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Basic Mobile Test</h1>
+
+        <div class="test">
+            <h2>✅ If you can see this page...</h2>
+            <p class="success">YOUR MOBILE CAN REACH THE SERVER! 🎉</p>
+            <p><strong>Current URL:</strong> <code id="url"></code></p>
+            <p><strong>Time:</strong> <code id="time"></code></p>
+            <p><strong>User Agent:</strong> <code id="ua" style="word-wrap: break-word;"></code></p>
+        </div>
+
+        <div class="test steps">
+            <h2>🔧 Next Steps to Fix API:</h2>
+            <div class="step">1️⃣ <strong>Check WiFi:</strong> Make sure mobile is on same network as server</div>
+            <div class="step">2️⃣ <strong>Try Manual API:</strong> <a href="/health" style="color: #64B5F6;">http://192.168.18.33:5001/health</a></div>
+            <div class="step">3️⃣ <strong>Try Main App:</strong> <a href="/" style="color: #64B5F6;">http://192.168.18.33:5001/</a></div>
+            <div class="step">4️⃣ <strong>Clear Cache:</strong> Clear mobile browser cache and try again</div>
+        </div>
+
+        <div class="test">
+            <h2>🌐 Test Different URLs:</h2>
+            <p>Click these links to test different parts:</p>
+            <ul>
+                <li><a href="/health" style="color: #81C784;">Health Check (should show JSON)</a></li>
+                <li><a href="/api/events" style="color: #81C784;">API Events (should show JSON)</a></li>
+                <li><a href="/" style="color: #81C784;">Main Application</a></li>
+                <li><a href="/attend/test-event" style="color: #81C784;">Event Form</a></li>
+                <li><a href="/mobile-test.html" style="color: #81C784;">Mobile JavaScript Test</a></li>
+            </ul>
+        </div>
+
+        <div class="test">
+            <h2>📊 Debug Information:</h2>
+            <p><strong>Screen Size:</strong> <code id="screen"></code></p>
+            <p><strong>Connection Type:</strong> <code id="connection"></code></p>
+            <p><strong>Platform:</strong> <code id="platform"></code></p>
+        </div>
+
+        <div class="test">
+            <h2>🔍 Quick Manual Test:</h2>
+            <p>Open a new tab on mobile and try: <br><code>http://192.168.18.33:5001/health</code></p>
+            <p>You should see JSON like: <br><code>{"status":"OK","timestamp":"..."}</code></p>
+        </div>
+    </div>
+
+    <script>
+        // Basic info display
+        document.getElementById('url').textContent = window.location.href;
+        document.getElementById('time').textContent = new Date().toLocaleString();
+        document.getElementById('ua').textContent = navigator.userAgent;
+        document.getElementById('screen').textContent = window.screen.width + 'x' + window.screen.height;
+        document.getElementById('platform').textContent = navigator.platform || 'Unknown';
+
+        // Connection type
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        document.getElementById('connection').textContent = connection ? (connection.type || connection.effectiveType || 'Unknown') : 'Not available';
+
+        console.log('🚀 Basic Mobile Test Loaded Successfully!');
+        console.log('📱 Mobile device can reach the server');
+        console.log('🌐 URL:', window.location.href);
+    </script>
+</body>
+</html>

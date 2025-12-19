@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mobile CORS Fix Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .test { margin: 15px 0; padding: 15px; background: white; border-radius: 8px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .info { color: blue; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>📱 Mobile CORS Fix Test</h1>
+
+    <div class="test">
+        <h3>✅ Page Loaded Successfully</h3>
+        <p><strong>Current URL:</strong> <span id="url" class="info"></span></p>
+        <p><strong>Time:</strong> <span id="time" class="info"></span></p>
+    </div>
+
+    <div class="test">
+        <h3>🔧 CORS Fix Verification</h3>
+        <p>This page uses <strong>relative URLs</strong> to avoid CORS issues:</p>
+        <ul>
+            <li>❌ Old: <code>fetch('http://192.168.18.33:5001/api/events')</code></li>
+            <li>✅ New: <code>fetch('/api/events')</code></li>
+        </ul>
+        <button onclick="testAPI()">Test API Connection</button>
+        <div id="result"></div>
+    </div>
+
+    <div class="test">
+        <h3>🎯 Test Pages</h3>
+        <button onclick="testHealth()">Health Check (/health)</button>
+        <button onclick="testEvents()">API Events (/api/events)</button>
+        <button onclick="goToMain()">Main App (/)</button>
+        <button onclick="goToEvent()">Event Form (/attend/test-event)</button>
+        <div id="testResults"></div>
+    </div>
+
+    <script>
+        document.getElementById('url').textContent = window.location.href;
+        document.getElementById('time').textContent = new Date().toLocaleString();
+
+        async function testAPI() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<div class="info">Testing API...</div>';
+
+            try {
+                const response = await fetch('/api/events');
+                const data = await response.json();
+
+                result.innerHTML = `
+                    <div class="success">
+                        ✅ API SUCCESS!
+                        Status: ${response.status}
+                        Events: ${Array.isArray(data) ? data.length : 'Unknown'}
+                    </div>
+                `;
+
+                // Log to server for debugging
+                console.log('✅ Mobile API Test Success:', response.status);
+
+            } catch (error) {
+                result.innerHTML = `
+                    <div class="error">
+                        ❌ API FAILED!
+                        Error: ${error.message}
+                    </div>
+                `;
+
+                console.log('❌ Mobile API Test Failed:', error.message);
+            }
+        }
+
+        async function testHealth() {
+            const results = document.getElementById('testResults');
+            try {
+                const response = await fetch('/health');
+                results.innerHTML = `<div class="success">✅ Health: ${response.status}</div>`;
+            } catch (error) {
+                results.innerHTML = `<div class="error">❌ Health: ${error.message}</div>`;
+            }
+        }
+
+        async function testEvents() {
+            const results = document.getElementById('testResults');
+            try {
+                const response = await fetch('/api/events');
+                const data = await response.json();
+                results.innerHTML = `<div class="success">✅ Events: ${Array.isArray(data) ? data.length : 'Unknown'} items</div>`;
+            } catch (error) {
+                results.innerHTML = `<div class="error">❌ Events: ${error.message}</div>`;
+            }
+        }
+
+        function goToMain() {
+            window.location.href = '/';
+        }
+
+        function goToEvent() {
+            window.location.href = '/attend/test-event';
+        }
+
+        // Auto-test on page load
+        window.addEventListener('load', () => {
+            console.log('🚀 Mobile Test Page Loaded');
+            console.log('📱 User Agent:', navigator.userAgent);
+            console.log('🌐 Current URL:', window.location.href);
+
+            // Test API automatically after 1 second
+            setTimeout(testAPI, 1000);
+        });
+    </script>
+</body>
+</html>
