@@ -23,10 +23,12 @@ const server = http.createServer(app);
 
 // Define allowed origins for both CORS and Socket.io
 const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:5001',
-  'http://localhost:5001',
-  'http://localhost:3000',
-  'http://192.168.18.33:5001'
+  process.env.FRONTEND_URL || 'http://event.unidumdev.my.id',
+  'http://event.unidumdev.my.id',           // Frontend subdomain
+  'https://event.unidumdev.my.id',          // Frontend subdomain (HTTPS)
+  'http://localhost:3000',                  // Development fallback
+  'http://localhost:5001',                  // Local fallback
+  'http://192.168.18.33:5001'              // Network access (for local development)
 ];
 
 const io = socketIo(server, {
