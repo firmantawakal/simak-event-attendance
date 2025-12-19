@@ -132,11 +132,7 @@ const AttendForm = () => {
         isAdminUser = userRole === 'admin' || userRole === 'superadmin';
       }
 
-      // For testing purposes, set admin to true if no admin detection works
-      if (!isAdminUser && !userStr && !userRole) {
-        isAdminUser = true;
-      }
-
+  
       setIsAdmin(isAdminUser);
     };
     checkAdminStatus();
