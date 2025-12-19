@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Test Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>🔗 Network Connection Test</h1>
+    <div id="results"></div>
+
+    <script>
+        const results = document.getElementById('results');
+        const tests = [
+            { name: 'HTML Page Load', url: window.location.href },
+            { name: 'API Connection', url: 'http://192.168.18.33:5001/api/events' },
+            { name: 'Health Check', url: 'http://192.168.18.33:5001/health' }
+        ];
+
+        async function runTests() {
+            for (const test of tests) {
+                const div = document.createElement('div');
+                div.className = 'test';
+                div.innerHTML = `<strong>${test.name}:</strong> Testing...`;
+                results.appendChild(div);
+
+                try {
+                    const response = await fetch(test.url);
+                    if (response.ok) {
+                        div.className = 'test success';
+                        div.innerHTML = `<strong>${test.name}:</strong> ✅ SUCCESS (${response.status})`;
+                    } else {
+                        div.className = 'test error';
+                        div.innerHTML = `<strong>${test.name}:</strong> ❌ FAILED (${response.status})`;
+                    }
+                } catch (error) {
+                    div.className = 'test error';
+                    div.innerHTML = `<strong>${test.name}:</strong> ❌ ERROR - ${error.message}`;
+                }
+            }
+        }
+
+        // Add device info
+        const info = document.createElement('div');
+        info.className = 'test';
+        info.innerHTML = `
+            <strong>Device Info:</strong><br>
+            User Agent: ${navigator.userAgent}<br>
+            Current URL: ${window.location.href}<br>
+            Timestamp: ${new Date().toISOString()}
+        `;
+        results.appendChild(info);
+
+        runTests();
+    </script>
+</body>
+</html>

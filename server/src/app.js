@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -19,9 +20,18 @@ const PORT = process.env.PORT || 5000;
 
 // Create HTTP server and Socket.io instance
 const server = http.createServer(app);
+
+// Define allowed origins for both CORS and Socket.io
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'http://localhost:5001',
+  'http://localhost:5001',
+  'http://localhost:3000',
+  'http://192.168.18.33:5001'
+];
+
 const io = socketIo(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -49,8 +59,30 @@ io.on('connection', (socket) => {
   });
 });
 
-// Security middleware
-app.use(helmet());
+// Security middleware - relaxed for mobile compatibility
+// In production, use minimal security headers for mobile compatibility
+if (process.env.NODE_ENV === 'production') {
+  // More permissive CSP for mobile and network access
+  app.use(helmet({
+    contentSecurityPolicy: false, // Disable CSP entirely for mobile compatibility
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+  }));
+} else {
+  // Normal CSP for development
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:"],
+        connectSrc: ["'self'"],
+        fontSrc: ["'self'"],
+      },
+    },
+  }));
+}
 
 // Rate limiting (less restrictive for development)
 const limiter = rateLimit({
@@ -73,7 +105,7 @@ const attendanceLimiter = rateLimit({
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: allowedOrigins,
   credentials: true
 }));
 
@@ -98,6 +130,32 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Serve static files from React app in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../../client/build')));
+
+  // Handle React Router - return index.html for any non-API routes
+  app.get('*', (req, res) => {
+    // Don't handle API routes
+    if (req.originalUrl.startsWith('/api')) {
+      return res.status(404).json({
+        error: 'Route not found',
+        message: `Cannot ${req.method} ${req.originalUrl}`
+      });
+    }
+
+    // Don't handle health route
+    if (req.originalUrl === '/health') {
+      return res.status(404).json({
+        error: 'Route not found',
+        message: `Cannot ${req.method} ${req.originalUrl}`
+      });
+    }
+
+    res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+  });
+}
+
 // 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({
@@ -111,10 +169,11 @@ app.use(errorHandler);
 
 // Start server
 if (require.main === module) {
-  server.listen(PORT, () => {
+  server.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📚 Environment: ${process.env.NODE_ENV}`);
     console.log(`🔗 Frontend URL: ${process.env.FRONTEND_URL}`);
+    console.log(`🌐 Accessible at: http://0.0.0.0:${PORT}`);
     console.log(`🔌 Socket.io enabled`);
   });
 }

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Mobile Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f8ff;
+        }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .info { color: blue; }
+        .test {
+            margin: 15px 0;
+            padding: 15px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            background-color: white;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📱 Simple Mobile Connection Test</h1>
+
+    <div class="test">
+        <h3>✅ Basic Connection Test</h3>
+        <p><strong>Status:</strong> <span class="success">Page loaded successfully!</span></p>
+        <p><strong>Current URL:</strong> <span class="info" id="currentUrl"></span></p>
+        <p><strong>Timestamp:</strong> <span class="info" id="timestamp"></span></p>
+    </div>
+
+    <div class="test">
+        <h3>📱 Device Information</h3>
+        <p><strong>User Agent:</strong></p>
+        <p class="info" style="word-wrap: break-word;" id="userAgent"></p>
+        <p><strong>Screen Size:</strong> <span id="screenSize"></span></p>
+    </div>
+
+    <div class="test">
+        <h3>🔗 API Connection Tests</h3>
+        <button onclick="testAPI()">Test API Connection</button>
+        <div id="apiResult"></div>
+    </div>
+
+    <div class="test">
+        <h3>🎯 Test Different Pages</h3>
+        <button onclick="window.location.href='/'">Main App</button>
+        <button onclick="window.location.href='/health'">Health Check</button>
+        <button onclick="window.location.href='/attend/test-event'">Event Form</button>
+    </div>
+
+    <script>
+        // Display basic info
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('screenSize').textContent = window.screen.width + 'x' + window.screen.height;
+
+        // Test API function
+        async function testAPI() {
+            const resultDiv = document.getElementById('apiResult');
+            resultDiv.innerHTML = '<div class="info">Testing API connection...</div>';
+
+            try {
+                const response = await fetch('/api/events');
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="result" style="background-color: #d4edda; border-color: #c3e6cb;">
+                            <div class="success">✅ API Connection SUCCESS!</div>
+                            <div>Status: ${response.status}</div>
+                            <div>Events found: ${data.length || 'Unknown'}</div>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result" style="background-color: #f8d7da; border-color: #f5c6cb;">
+                            <div class="error">❌ API Connection FAILED!</div>
+                            <div>Status: ${response.status}</div>
+                            <div>Status Text: ${response.statusText}</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result" style="background-color: #f8d7da; border-color: #f5c6cb;">
+                        <div class="error">❌ API Connection ERROR!</div>
+                        <div>Error: ${error.message}</div>
+                        <div style="margin-top: 10px; font-size: 14px;">
+                            <strong>Possible causes:</strong><br>
+                            • Network connectivity issue<br>
+                            • CORS policy blocking request<br>
+                            • API server not responding<br>
+                            • Firewall blocking connection
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-run some tests
+        console.log('🔍 Mobile Test Page Loaded');
+        console.log('URL:', window.location.href);
+        console.log('User Agent:', navigator.userAgent);
+    </script>
+</body>
+</html>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import { Clock, Users, Building, UserCheck } from 'lucide-react';
+import { buildApiUrl, buildSocketUrl } from '../config/config';
 import './GuestDisplay.css';
 
 const GuestDisplay = () => {
@@ -35,7 +36,7 @@ const GuestDisplay = () => {
     const fetchEventAndGuests = async () => {
       try {
         // Fetch event details
-        const eventResponse = await fetch(`http://localhost:5000/api/events/slug/${slug}`);
+        const eventResponse = await fetch(buildApiUrl(`events/slug/${slug}`));
         if (!eventResponse.ok) {
           throw new Error('Event not found');
         }
@@ -44,7 +45,7 @@ const GuestDisplay = () => {
 
         // Fetch existing guests
         try {
-          const attendanceResponse = await fetch(`http://localhost:5000/api/attendance/event/${eventData.event.id}?pageSize=1000`);
+          const attendanceResponse = await fetch(buildApiUrl(`attendance/event/${eventData.event.id}?pageSize=1000`));
           if (attendanceResponse.ok) {
             const attendanceData = await attendanceResponse.json();
             const sortedGuests = (attendanceData.attendance || []).sort((a, b) =>
@@ -79,7 +80,7 @@ const GuestDisplay = () => {
   // Initialize Socket.io
   useEffect(() => {
     if (event) {
-      socketRef.current = io('http://localhost:5000');
+      socketRef.current = io(buildSocketUrl());
 
       socketRef.current.on('connect', () => {
         setConnected(true);
